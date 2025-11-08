@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 // Conecta ao MongoDB
-connectDB();
+await connectDB();
 
 // Rotas
 app.use('/pf', pfRoutes);
