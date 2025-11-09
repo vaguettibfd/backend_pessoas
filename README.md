@@ -19,7 +19,7 @@ com suporte a **CRUD completo**, **relacionamentos entre coleções**, e **filtr
 
 ## 🌐 URL Base da API
 
-https://<seuapp>.vercel.app/
+https://backend-pessoas.vercel.app/
 
 
 Todas as rotas abaixo são relativas a essa URL.
