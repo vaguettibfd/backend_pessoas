@@ -49,7 +49,48 @@ export default class PFDAO {
   }
 
   async atualizar(id, novosDados) {
-    return await PF.findByIdAndUpdate(id, novosDados, { new: true });
+    try {
+      // 🔹 Cria novo Endereco se vier como objeto
+      if (novosDados.endereco && typeof novosDados.endereco === "object" && !novosDados.endereco._id) {
+        const novoEnd = await Endereco.create(novosDados.endereco);
+        novosDados.endereco = novoEnd._id;
+      }
+
+      // 🔹 Cria novos Telefones se vierem como objetos
+      if (Array.isArray(novosDados.telefones)) {
+        const telIds = [];
+        for (const tel of novosDados.telefones) {
+          if (typeof tel === "object" && !tel._id) {
+            const novoTel = await Telefone.create(tel);
+            telIds.push(novoTel._id);
+          } else {
+            telIds.push(tel);
+          }
+        }
+        novosDados.telefones = telIds;
+      }
+
+      // 🔹 Atualiza ou cria Título se vier como objeto
+      if (novosDados.titulo && typeof novosDados.titulo === "object") {
+        if (novosDados.titulo._id) {
+          await Titulo.findByIdAndUpdate(novosDados.titulo._id, novosDados.titulo);
+        } else {
+          const novoTitulo = await Titulo.create(novosDados.titulo);
+          novosDados.titulo = novoTitulo._id;
+        }
+      }
+
+      // 🔹 Atualiza o documento PF
+      const atualizado = await PF.findByIdAndUpdate(id, novosDados, { new: true })
+        .populate("endereco")
+        .populate("telefones")
+        .populate("titulo");
+
+      return atualizado;
+    } catch (err) {
+      console.error("❌ Erro ao atualizar PF:", err.message);
+      throw err;
+    }
   }
 
   async excluir(id) {
