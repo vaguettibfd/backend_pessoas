@@ -53,6 +53,25 @@ export default class PJDAO {
   }
 
   async excluir(id) {
-    return await PJ.findByIdAndDelete(id);
+    try {
+      const pj = await PJ.findById(id);
+
+      if (!pj) {
+        throw new Error("PJ não encontrada para exclusão");
+      }
+
+      // 🔹 Remove a Inscrição Estadual (1:1)
+      if (pj.ie) {
+        await IE.findByIdAndDelete(pj.ie);
+      }
+
+      // 🔹 Remove a própria PJ
+      await PJ.findByIdAndDelete(id);
+
+      return { mensagem: "PJ e dados exclusivos excluídos com sucesso" };
+    } catch (err) {
+      console.error("❌ Erro ao excluir PJ:", err.message);
+      throw err;
+    }
   }
 }
