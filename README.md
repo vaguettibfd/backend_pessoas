@@ -51,7 +51,8 @@ Todas as rotas abaixo são relativas a essa URL.
 
 | Método | Rota | Descrição |
 |---------|-------|-----------|
-| **GET** | `/pf` | Lista todas as PFs ou filtra por nome (`?nome=...`) |
+| **GET** | `/pf` | Lista todas as PFs  |
+| **GET** | `/pf/filtrar` | Filtra por nome (`?nome=...`) |
 | **POST** | `/pf` | Cria nova PF com dados aninhados ou referências |
 | **PUT** | `/pf/:id` | Atualiza PF existente (aceita objetos ou `_id`s) |
 | **DELETE** | `/pf/:id` | Remove PF e seu Título associado (1:1) |
@@ -111,7 +112,8 @@ Remove o documento PF e o **Título** vinculado (relacionamento 1:1).
 
 | Método | Rota | Descrição |
 |---------|-------|-----------|
-| **GET** | `/pj` | Lista todas as PJs ou filtra por nome (`?nome=...`) |
+| **GET** | `/pj` | Lista todas as PJs  |
+| **GET** | `/pj/filtrar` | Filtra por nome (`?nome=...`) |
 | **POST** | `/pj` | Cria nova PJ com dados aninhados ou referências |
 | **PUT** | `/pj/:id` | Atualiza PJ existente (aceita objetos ou `_id`s) |
 | **DELETE** | `/pj/:id` | Remove PJ e sua Inscrição Estadual (1:1) |
