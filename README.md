@@ -255,8 +255,8 @@ npm run dev
 ## 👥 Autores e Contato
 
 **Coordenação:** Leandro Vaguetti  
-**Instituição:** Universidade Católica de Brasília / Instituto Federal de Brasília  
-**Contato:** [leandro@ifb.edu.br](mailto:leandro@ifb.edu.br)
+**Instituição:** Instituto Federal de Brasília - IFB 
+**Contato:** [leandro.vaguetti@ifb.edu.br](mailto:leandro.vaguetti@ifb.edu.br)
 
 ---
 
