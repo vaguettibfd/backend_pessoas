@@ -1,4 +1,7 @@
 import PF from "../models/PF.js";
+import Endereco from "../models/Endereco.js";
+import Telefone from "../models/Telefone.js";
+import Titulo from "../models/Titulo.js";
 
 export default class PFDAO {
   async listar() {
