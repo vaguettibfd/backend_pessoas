@@ -1,0 +1,21 @@
+{
+    "nome": "Tech Soluções LTDA 2 ",
+    "email": "contato@tech.com.br",
+    "cnpj": "12345678000190",
+    "endereco": {
+      "cep": "72000-000",
+      "logradouro": "Avenida das Nações",
+      "bairro": "Taguatinga",
+      "cidade": "Brasília",
+      "uf": "DF",
+      "regiao": "Centro-Oeste"
+    },
+    "telefones": [
+      { "ddd": "61", "numero": "33445566" }
+    ],
+    "ie": {
+      "numero": "DF12345",
+      "estado": "DF",
+      "dataRegistro": "2023-01-01T00:00:00Z"
+    }
+  }
