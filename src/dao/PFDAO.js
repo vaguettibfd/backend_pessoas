@@ -114,4 +114,18 @@ export default class PFDAO {
       throw err;
     }
   }
+
+    // listagem filtrando por nome
+    async listarByName(nome) {
+      const filtro = nome
+        ? { nome: { $regex: nome, $options: "i" } }
+        : {}; // sem filtro, lista todos
+    
+      return await PJ.find(filtro)
+        .populate("endereco")
+        .populate("telefones")
+        .populate("titulo")
+        .sort({ nome: 1 }); // ordena alfabeticamente
+    }
+  
 }

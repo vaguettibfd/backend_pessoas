@@ -21,4 +21,16 @@ router.delete('/:id', async (req, res) => {
   res.json({ mensagem: 'Removido com sucesso!' });
 });
 
+// Listagem filtrada
+router.get("/filtrar", async (req, res) => {
+  try {
+    const { nome } = req.query; // ?nome=Tech
+    const lista = await dao.listarByName(nome);
+    res.json(lista);
+  } catch (err) {
+    res.status(500).json({ erro: "Erro ao listar PJs", detalhe: err.message });
+  }
+});
+
+
 export default router;
