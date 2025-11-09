@@ -19,8 +19,9 @@ com suporte a **CRUD completo**, **relacionamentos entre coleções**, e **filtr
 
 ## 🌐 URL Base da API
 
+```
 https://backend-pessoas.vercel.app/
-
+```
 
 Todas as rotas abaixo são relativas a essa URL.
 
@@ -79,11 +80,15 @@ Todas as rotas abaixo são relativas a essa URL.
     "secao": "002"
   }
 }
+```
 
-🔍 Exemplo de busca por nome
+#### 🔍 Exemplo de busca por nome
+```
 GET /pf?nome=leandro
+```
 
-✏️ Exemplo de atualização (PUT /pf/:id)
+#### ✏️ Exemplo de atualização (`PUT /pf/:id`)
+```json
 {
   "nome": "Leandro Vaguetti",
   "email": "leandro@ifb.edu.br",
@@ -94,14 +99,26 @@ GET /pf?nome=leandro
     "secao": "004"
   }
 }
+```
 
-🗑️ Exclusão (DELETE /pf/:id)
-Remove o documento PF e o Título vinculado (relacionamento 1:1).
-Telefones e Endereços compartilhados não são apagados.
+#### 🗑️ Exclusão (`DELETE /pf/:id`)
+Remove o documento PF e o **Título** vinculado (relacionamento 1:1).  
+**Telefones e Endereços compartilhados não são apagados.**
 
-🧩 Pessoas Jurídicas — /pj
-MétodoRotaDescriçãoGET/pjLista todas as PJs ou filtra por nome (?nome=...)POST/pjCria nova PJ com dados aninhados ou referênciasPUT/pj/:idAtualiza PJ existente (aceita objetos ou _ids)DELETE/pj/:idRemove PJ e sua Inscrição Estadual (1:1)
-🧾 Exemplo de inserção (POST /pj)
+---
+
+### 🧩 Pessoas Jurídicas — `/pj`
+
+| Método | Rota | Descrição |
+|---------|-------|-----------|
+| **GET** | `/pj` | Lista todas as PJs ou filtra por nome (`?nome=...`) |
+| **POST** | `/pj` | Cria nova PJ com dados aninhados ou referências |
+| **PUT** | `/pj/:id` | Atualiza PJ existente (aceita objetos ou `_id`s) |
+| **DELETE** | `/pj/:id` | Remove PJ e sua Inscrição Estadual (1:1) |
+
+#### 🧾 Exemplo de inserção (`POST /pj`)
+
+```json
 {
   "nome": "Tech Soluções LTDA 2",
   "email": "contato@tech.com.br",
@@ -123,11 +140,15 @@ MétodoRotaDescriçãoGET/pjLista todas as PJs ou filtra por nome (?nome=...)POS
     "dataRegistro": "2023-01-01T00:00:00Z"
   }
 }
+```
 
-🔍 Exemplo de busca por nome
+#### 🔍 Exemplo de busca por nome
+```
 GET /pj?nome=tech
+```
 
-✏️ Exemplo de atualização (PUT /pj/:id)
+#### ✏️ Exemplo de atualização (`PUT /pj/:id`)
+```json
 {
   "nome": "Tech Soluções LTDA",
   "email": "contato@tech.com.br",
@@ -139,20 +160,40 @@ GET /pj?nome=tech
     "dataRegistro": "2024-01-01T00:00:00Z"
   }
 }
+```
 
-🗑️ Exclusão (DELETE /pj/:id)
-Remove o documento PJ e sua Inscrição Estadual (IE) vinculada.
-Telefones e Endereços compartilhados são preservados.
+#### 🗑️ Exclusão (`DELETE /pj/:id`)
+Remove o documento PJ e sua **Inscrição Estadual (IE)** vinculada.  
+**Telefones e Endereços compartilhados são preservados.**
 
-🔍 Exemplos de Query Param
-Os filtros de nome funcionam em ambas as rotas (/pf e /pj):
-ExemploDescrição/pf?nome=leandroRetorna PFs cujo nome contém “Leandro”/pj?nome=techRetorna PJs cujo nome contém “Tech”
-A busca é case-insensitive e usa regex parcial.
+---
 
-🧠 Erros comuns
-CódigoCausaSolução400Dados inválidos ou ausentesVerifique o corpo da requisição404ID não encontradoVerifique se o documento existe500Erro internoVerifique logs de conexão MongoDB ou servidor
+## 🔍 Exemplos de Query Param
 
-📜 Estrutura do Projeto
+Os filtros de nome funcionam em **ambas** as rotas (`/pf` e `/pj`):
+
+| Exemplo | Descrição |
+|----------|------------|
+| `/pf?nome=leandro` | Retorna PFs cujo nome contém “Leandro” |
+| `/pj?nome=tech` | Retorna PJs cujo nome contém “Tech” |
+
+A busca é **case-insensitive** e usa **regex parcial**.
+
+---
+
+## 🧠 Erros comuns
+
+| Código | Causa | Solução |
+|--------|--------|----------|
+| **400** | Dados inválidos ou ausentes | Verifique o corpo da requisição |
+| **404** | ID não encontrado | Verifique se o documento existe |
+| **500** | Erro interno | Verifique logs de conexão MongoDB ou servidor |
+
+---
+
+## 📜 Estrutura do Projeto
+
+```
 src/
  ├── dao/
  │   ├── PFDAO.js
@@ -170,16 +211,27 @@ src/
  ├── database/
  │   └── connect.js
  └── server.js
+```
 
+---
 
-📘 Documentação Interativa (Swagger)
-A documentação completa em Swagger/OpenAPI está disponível no arquivo:
-📄 openapi.json
+## 📘 Documentação Interativa (Swagger)
+
+A documentação completa em **Swagger/OpenAPI** está disponível no arquivo:
+
+📄 [`openapi.json`](./openapi.json)
+
 Você pode testá-la interativamente em:
-🔗 https://editor.swagger.io
-Basta importar o arquivo openapi.json.
 
-⚙️ Instalação local
+🔗 [https://editor.swagger.io](https://editor.swagger.io)
+
+Basta importar o arquivo `openapi.json`.
+
+---
+
+## ⚙️ Instalação local
+
+```bash
 # Clone o repositório
 git clone https://github.com/<usuario>/<repositorio>.git
 
@@ -194,15 +246,18 @@ echo "MONGO_URI=mongodb+srv://<usuario>:<senha>@<cluster>.mongodb.net/pessoas" >
 
 # Execute em modo desenvolvimento
 npm run dev
-
-
-👥 Autores e Contato
-Coordenação: Leandro Vaguetti
-Instituição: Universidade Católica de Brasília / Instituto Federal de Brasília
-Contato: leandro@ifb.edu.br
-
-🧩 Licença
-Este projeto é distribuído sob a licença MIT — veja o arquivo LICENSE para mais detalhes.
+```
 
 ---
 
+## 👥 Autores e Contato
+
+**Coordenação:** Leandro Vaguetti  
+**Instituição:** Universidade Católica de Brasília / Instituto Federal de Brasília  
+**Contato:** [leandro@ifb.edu.br](mailto:leandro@ifb.edu.br)
+
+---
+
+## 🧩 Licença
+
+Este projeto é distribuído sob a licença **MIT** — veja o arquivo `LICENSE` para mais detalhes.
