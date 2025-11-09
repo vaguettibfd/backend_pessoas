@@ -1,0 +1,320 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API REST - Gerenciamento de Pessoas (PF e PJ)",
+    "description": "Documentação OpenAPI (Swagger) da API REST para gerenciamento de Pessoas Físicas (PF) e Jurídicas (PJ).",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Equipe de Desenvolvimento",
+      "email": "dev@ifb.edu.br"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://seuapp.vercel.app"
+    }
+  ],
+  "paths": {
+    "/pf": {
+      "get": {
+        "summary": "Listar todas as Pessoas Físicas",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Filtrar por nome (busca parcial, case-insensitive)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de PFs"
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar nova Pessoa Física",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PessoaFisica"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "PF criada com sucesso"
+          }
+        }
+      }
+    },
+    "/pf/{id}": {
+      "put": {
+        "summary": "Atualizar Pessoa Física existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PessoaFisica"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "PF atualizada com sucesso"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir Pessoa Física e Título vinculado",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PF e Título excluídos com sucesso"
+          }
+        }
+      }
+    },
+    "/pj": {
+      "get": {
+        "summary": "Listar todas as Pessoas Jurídicas",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Filtrar por nome (busca parcial, case-insensitive)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de PJs"
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar nova Pessoa Jurídica",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PessoaJuridica"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "PJ criada com sucesso"
+          }
+        }
+      }
+    },
+    "/pj/{id}": {
+      "put": {
+        "summary": "Atualizar Pessoa Jurídica existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PessoaJuridica"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "PJ atualizada com sucesso"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir Pessoa Jurídica e IE vinculada",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PJ e IE excluídas com sucesso"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Endereco": {
+        "type": "object",
+        "properties": {
+          "cep": {
+            "type": "string"
+          },
+          "logradouro": {
+            "type": "string"
+          },
+          "bairro": {
+            "type": "string"
+          },
+          "cidade": {
+            "type": "string"
+          },
+          "uf": {
+            "type": "string"
+          },
+          "regiao": {
+            "type": "string"
+          }
+        }
+      },
+      "Telefone": {
+        "type": "object",
+        "properties": {
+          "ddd": {
+            "type": "string"
+          },
+          "numero": {
+            "type": "string"
+          }
+        }
+      },
+      "Titulo": {
+        "type": "object",
+        "properties": {
+          "numero": {
+            "type": "string"
+          },
+          "zona": {
+            "type": "string"
+          },
+          "secao": {
+            "type": "string"
+          }
+        }
+      },
+      "IE": {
+        "type": "object",
+        "properties": {
+          "numero": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "string"
+          },
+          "dataRegistro": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PessoaFisica": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/Endereco"
+          },
+          "telefones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Telefone"
+            }
+          },
+          "titulo": {
+            "$ref": "#/components/schemas/Titulo"
+          }
+        },
+        "required": [
+          "nome",
+          "cpf"
+        ]
+      },
+      "PessoaJuridica": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "cnpj": {
+            "type": "string"
+          },
+          "endereco": {
+            "$ref": "#/components/schemas/Endereco"
+          },
+          "telefones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Telefone"
+            }
+          },
+          "ie": {
+            "$ref": "#/components/schemas/IE"
+          }
+        },
+        "required": [
+          "nome",
+          "cnpj"
+        ]
+      }
+    }
+  }
+}
