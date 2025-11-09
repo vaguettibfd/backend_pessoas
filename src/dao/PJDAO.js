@@ -132,7 +132,7 @@ export default class PJDAO {
     return await PJ.find(filtro)
       .populate("endereco")
       .populate("telefones")
-      .populate("titulo")
+      .populate("ie")
       .sort({ nome: 1 }); // ordena alfabeticamente
   }
 }
