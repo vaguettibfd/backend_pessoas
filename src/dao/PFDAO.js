@@ -121,7 +121,7 @@ export default class PFDAO {
         ? { nome: { $regex: nome, $options: "i" } }
         : {}; // sem filtro, lista todos
     
-      return await PJ.find(filtro)
+      return await PF.find(filtro)
         .populate("endereco")
         .populate("telefones")
         .populate("titulo")
