@@ -49,7 +49,55 @@ export default class PJDAO {
   }
 
   async atualizar(id, novosDados) {
-    return await PJ.findByIdAndUpdate(id, novosDados, { new: true });
+    try {
+      // 🔹 Cria novo Endereco se vier como objeto e ainda não existir
+      if (novosDados.endereco && typeof novosDados.endereco === "object" && !novosDados.endereco._id) {
+        const existente = await Endereco.findOne(novosDados.endereco);
+        if (existente) {
+          novosDados.endereco = existente._id;
+        } else {
+          const novoEnd = await Endereco.create(novosDados.endereco);
+          novosDados.endereco = novoEnd._id;
+        }
+      }
+
+      // 🔹 Cria novos Telefones se vierem como objetos
+      if (Array.isArray(novosDados.telefones)) {
+        const telIds = [];
+        for (const tel of novosDados.telefones) {
+          if (typeof tel === "object" && !tel._id) {
+            const novoTel = await Telefone.create(tel);
+            telIds.push(novoTel._id);
+          } else {
+            telIds.push(tel);
+          }
+        }
+        novosDados.telefones = telIds;
+      }
+
+      // 🔹 Atualiza ou cria IE (Inscrição Estadual) se vier como objeto
+      if (novosDados.ie && typeof novosDados.ie === "object") {
+        if (novosDados.ie._id) {
+          // Atualiza o documento IE existente
+          await IE.findByIdAndUpdate(novosDados.ie._id, novosDados.ie);
+        } else {
+          // Cria um novo documento IE
+          const novoIE = await IE.create(novosDados.ie);
+          novosDados.ie = novoIE._id;
+        }
+      }
+
+      // 🔹 Atualiza o documento PJ
+      const atualizado = await PJ.findByIdAndUpdate(id, novosDados, { new: true })
+        .populate("endereco")
+        .populate("telefones")
+        .populate("ie");
+
+      return atualizado;
+    } catch (err) {
+      console.error("❌ Erro ao atualizar PJ:", err.message);
+      throw err;
+    }
   }
 
   async excluir(id) {
