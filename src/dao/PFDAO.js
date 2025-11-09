@@ -53,6 +53,24 @@ export default class PFDAO {
   }
 
   async excluir(id) {
-    return await PF.findByIdAndDelete(id);
+    try {
+      const pf = await PF.findById(id);
+
+      if (!pf) {
+        throw new Error("PF não encontrada para exclusão");
+      }
+
+      // 🔹 Remove o Título (1:1)
+      if (pf.titulo) {
+        await Titulo.findByIdAndDelete(pf.titulo);
+      }
+      // 🔹 Remove a própria PF
+      await PF.findByIdAndDelete(id);
+
+      return { mensagem: "PF e dados relacionados excluídos com sucesso" };
+    } catch (err) {
+      console.error("❌ Erro ao excluir PF:", err.message);
+      throw err;
+    }
   }
 }
