@@ -63,6 +63,7 @@ Todas as rotas abaixo são relativas a essa URL.
 {
   "nome": "Leandro Vaguetti 3",
   "email": "leandro@ifb.edu.br",
+  "data": "2025-01-12T00:00:00Z",
   "cpf": "12345678903",
   "endereco": {
     "cep": "71000-000",
@@ -93,6 +94,7 @@ GET /pf?nome=leandro
 {
   "nome": "Leandro Vaguetti",
   "email": "leandro@ifb.edu.br",
+  "data": "2025-01-12T00:00:00Z",
   "cpf": "12345678903",
   "titulo": {
     "_id": "675a1234f8a1e6f5b04c0001",
@@ -124,6 +126,7 @@ Remove o documento PF e o **Título** vinculado (relacionamento 1:1).
 {
   "nome": "Tech Soluções LTDA 2",
   "email": "contato@tech.com.br",
+  "data": "2025-01-12T00:00:00Z",
   "cnpj": "12345678000190",
   "endereco": {
     "cep": "72000-000",
@@ -154,6 +157,7 @@ GET /pj?nome=tech
 {
   "nome": "Tech Soluções LTDA",
   "email": "contato@tech.com.br",
+  "data": "2025-01-12T00:00:00Z",
   "cnpj": "12345678000190",
   "ie": {
     "_id": "675b301b7a9d48a52b7a0011",
