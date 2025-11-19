@@ -1,0 +1,234 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "API REST - Gerenciamento de Pessoas (PF e PJ)",
+      "version": "1.1.0",
+      "description": "Documentação OpenAPI considerando o novo campo `data` no model Pessoa."
+    },
+    "servers": [
+      {
+        "url": "https://seuapp.vercel.app"
+      }
+    ],
+    "paths": {
+      "/pf": {
+        "get": {
+          "summary": "Listar PFs (com filtro opcional por nome)",
+          "parameters": [
+            {
+              "name": "nome",
+              "in": "query",
+              "schema": { "type": "string" },
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": { "description": "Lista de PFs" }
+          }
+        },
+        "post": {
+          "summary": "Criar uma nova Pessoa Física",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PessoaFisica" }
+              }
+            }
+          },
+          "responses": {
+            "201": { "description": "PF criada com sucesso" }
+          }
+        }
+      },
+      "/pf/{id}": {
+        "put": {
+          "summary": "Atualizar uma Pessoa Física",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PessoaFisica" }
+              }
+            }
+          },
+          "responses": {
+            "200": { "description": "PF atualizada" }
+          }
+        },
+        "delete": {
+          "summary": "Excluir uma Pessoa Física (e o Título vinculado)",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": { "description": "PF excluída" }
+          }
+        }
+      },
+      "/pj": {
+        "get": {
+          "summary": "Listar PJs (com filtro opcional por nome)",
+          "parameters": [
+            {
+              "name": "nome",
+              "in": "query",
+              "schema": { "type": "string" },
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": { "description": "Lista de PJs" }
+          }
+        },
+        "post": {
+          "summary": "Criar uma nova Pessoa Jurídica",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PessoaJuridica" }
+              }
+            }
+          },
+          "responses": {
+            "201": { "description": "PJ criada" }
+          }
+        }
+      },
+      "/pj/{id}": {
+        "put": {
+          "summary": "Atualizar uma Pessoa Jurídica",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PessoaJuridica" }
+              }
+            }
+          },
+          "responses": {
+            "200": { "description": "PJ atualizada" }
+          }
+        },
+        "delete": {
+          "summary": "Excluir uma Pessoa Jurídica (e a IE vinculada)",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": { "description": "PJ excluída" }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Endereco": {
+          "type": "object",
+          "properties": {
+            "cep": { "type": "string" },
+            "logradouro": { "type": "string" },
+            "bairro": { "type": "string" },
+            "cidade": { "type": "string" },
+            "uf": { "type": "string" },
+            "regiao": { "type": "string" }
+          }
+        },
+        "Telefone": {
+          "type": "object",
+          "properties": {
+            "ddd": { "type": "string" },
+            "numero": { "type": "string" }
+          }
+        },
+        "Titulo": {
+          "type": "object",
+          "properties": {
+            "numero": { "type": "string" },
+            "zona": { "type": "string" },
+            "secao": { "type": "string" }
+          }
+        },
+        "IE": {
+          "type": "object",
+          "properties": {
+            "numero": { "type": "string" },
+            "estado": { "type": "string" },
+            "dataRegistro": { "type": "string", "format": "date" }
+          }
+        },
+        "PessoaBase": {
+          "type": "object",
+          "properties": {
+            "nome": { "type": "string" },
+            "email": { "type": "string" },
+            "data": {
+              "type": "string",
+              "format": "date",
+              "description": "Para PF = dataNascimento; Para PJ = dataRegistro"
+            },
+            "endereco": { "$ref": "#/components/schemas/Endereco" },
+            "telefones": {
+              "type": "array",
+              "items": { "$ref": "#/components/schemas/Telefone" }
+            }
+          },
+          "required": ["nome"]
+        },
+        "PessoaFisica": {
+          "allOf": [
+            { "$ref": "#/components/schemas/PessoaBase" },
+            {
+              "type": "object",
+              "properties": {
+                "cpf": { "type": "string" },
+                "titulo": { "$ref": "#/components/schemas/Titulo" }
+              },
+              "required": ["cpf"]
+            }
+          ]
+        },
+        "PessoaJuridica": {
+          "allOf": [
+            { "$ref": "#/components/schemas/PessoaBase" },
+            {
+              "type": "object",
+              "properties": {
+                "cnpj": { "type": "string" },
+                "ie": { "$ref": "#/components/schemas/IE" }
+              },
+              "required": ["cnpj"]
+            }
+          ]
+        }
+      }
+    }
+  }
+  
